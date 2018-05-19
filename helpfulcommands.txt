@@ -1,0 +1,22 @@
+##Just some helpful commands i used during the course and thought were worth writing down
+#build
+nasm -felf64 1.nasm -o 1.o
+
+#link
+ld 1.o -o 1
+
+
+#gdb useful
+set disassembly-flavor intel
+set follow-fork-mode child
+
+#when using c runner
+gcc -fno-stack-protector -z execstack base_sc_runner.c -o base_sc_runner
+for i in $(objdump -D 1.o | grep "^ "|cut -f2); do echo -n '\x'$i;done;echo
+objdump -M intel -D 1.o
+
+#count bytes
+objdump -D 1/1.o | grep "^ "| cut -f2 | grep -o "[a-f0-9][a-f0-9]" | wc -l
+
+#count nulls
+objdump -D 1/1.o | grep "^ "| cut -f2 | grep -o "[a-f0-9][a-f0-9]" | grep 00 | wc -l
